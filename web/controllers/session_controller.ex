@@ -8,4 +8,9 @@ defmodule Mamoblog.SessionController do
   def new(conn, _params) do
     render conn, "new.html", changeset: User.changeset(%User{})
   end
+
+  def create(conn, %{"user" => user_params}) do
+      Repo.get_by(User, username: user_params["username"])
+      |> sign_in(user_params["password"], conn)
+  end
 end
